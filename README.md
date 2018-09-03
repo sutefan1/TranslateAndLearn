@@ -1,0 +1,2 @@
+# TranslateAndLearn
+TranslateAndLearn is an app that should help you to improve your language skills. I often use a translation app to quickly look up some words. In that moment, I know the new word and probably use it once or twice, but time flys, my brain is like a filter and only a few words stay in my mind. I want to beat my forgetability by reading the translations over and over again somewhere in the future. Therefore I need an app that saves the translations and reminds me to read and use new words.  
