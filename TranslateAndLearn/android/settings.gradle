@@ -1,0 +1,3 @@
+rootProject.name = 'TranslateAndLearn'
+
+include ':app'
