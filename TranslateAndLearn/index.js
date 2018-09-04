@@ -1,7 +1,5 @@
-/** @format */
-
 import { AppRegistry } from 'react-native';
-import SearchScreen from './src/screens/SearchScreen';
+import Router from './src/Router';
 import { name as appName } from './app.json';
 
-AppRegistry.registerComponent(appName, () => SearchScreen);
+AppRegistry.registerComponent(appName, () => Router);
