@@ -14,15 +14,6 @@
       "outDir": "${workspaceRoot}/.vscode/.react"
     },
     {
-      "name": "Debug iOS",
-      "program": "${workspaceRoot}/.vscode/launchReactNative.js",
-      "type": "reactnative",
-      "request": "launch",
-      "platform": "ios",
-      "sourceMaps": true,
-      "outDir": "${workspaceRoot}/.vscode/.react"
-    },
-    {
       "type": "node",
       "request": "launch",
       "name": "Launch Program",

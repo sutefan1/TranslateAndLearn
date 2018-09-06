@@ -5,6 +5,11 @@ import { Provider } from 'react-redux';
 import store from './reducers';
 import SearchScreen from './screens/SearchScreen';
 import Vocabulary from './screens/Vocabulary';
+import {
+  SECONDARY_BACKGROUND_COLOR,
+  INACTIVE_TINTCOLOR,
+  ACTIVE_TINTCOLOR,
+} from './Constants';
 
 /* eslint-disable react/prop-types */
 
@@ -17,7 +22,7 @@ class Router extends Component {
           navigationOptions: {
             title: 'Search',
             tabBarIcon: ({ tintColor }) => (
-              <Icon name="search" type="font-awesome" color={tintColor} />
+              <Icon name="search" type="material" color={tintColor} />
             ),
           },
         },
@@ -26,7 +31,7 @@ class Router extends Component {
           navigationOptions: {
             title: 'History',
             tabBarIcon: ({ tintColor }) => (
-              <Icon name="history" type="font-awesome" color={tintColor} />
+              <Icon name="history" type="material" color={tintColor} />
             ),
           },
         },
@@ -35,10 +40,10 @@ class Router extends Component {
         tabBarOptions: {
           showIcon: true,
           showLabel: false,
-          activeBackgroundColor: '#6D4C41',
-          inactiveBackgroundColor: '#6D4C41',
-          activeTintColor: '#EEEEEE',
-          inactiveTintColor: '#8D6E63',
+          activeBackgroundColor: SECONDARY_BACKGROUND_COLOR,
+          inactiveBackgroundColor: SECONDARY_BACKGROUND_COLOR,
+          activeTintColor: ACTIVE_TINTCOLOR,
+          inactiveTintColor: INACTIVE_TINTCOLOR,
         },
       },
     );

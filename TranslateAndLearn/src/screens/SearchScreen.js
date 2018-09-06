@@ -1,19 +1,34 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, Text, View, Keyboard, Dimensions,
+  StyleSheet,
+  Text,
+  View,
+  Keyboard,
+  Dimensions,
+  Image,
+  Animated,
 } from 'react-native';
-import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { Button } from 'react-native-elements';
 import { addTranslation } from '../actions/history_actions';
-import { ROOT_URL, API_KEY } from '../Constants';
+import {
+  ROOT_URL,
+  API_KEY,
+  BACKGROUND_COLOR,
+  SECONDARY_BACKGROUND_COLOR,
+  TEXT_COLOR,
+} from '../Constants';
+import SearchBar from '../components/SearchBar';
+import Logo from '../../assets/Logo.png';
 
 class SearchScreen extends Component {
   state = {
-    text: 'Go and translate some shit ;-)',
-    searchText: '',
+    text: '',
     visibleHeight: Dimensions.get('window').height,
   };
+
+  imageShown = new Animated.Value(0.3);
 
   componentDidMount() {
     this.keyboardDidShowListener = Keyboard.addListener(
@@ -24,6 +39,10 @@ class SearchScreen extends Component {
       'keyboardDidHide',
       this.keyboardDidHide,
     );
+    Animated.timing(this.imageShown, {
+      toValue: 1,
+      duration: 1000,
+    }).start();
   }
 
   componentWillUnmount() {
@@ -31,21 +50,7 @@ class SearchScreen extends Component {
     this.keyboardDidHideListener.remove();
   }
 
-  onChangeText = (searchText) => {
-    this.setState({ searchText });
-  };
-
-  onClearText = () => {
-    this.setState({ searchText: '' });
-  };
-
-  onSubmit = async () => {
-    Keyboard.dismiss();
-    const { searchText } = this.state;
-    if (searchText === '') {
-      return;
-    }
-
+  onSubmit = async (searchText) => {
     let {
       data: { text },
     } = await axios.get(
@@ -56,11 +61,31 @@ class SearchScreen extends Component {
     this.props.addTranslation({ de: searchText, en: concatinatedText });
     this.setState({
       text: concatinatedText,
-      searchText: '',
     });
   };
 
+  getImageStyle() {
+    const { height } = Dimensions.get('window');
+    const { visibleHeight } = this.state;
+    const transform = this.imageAnimation.x.interpolate({
+      inputRange: [visibleHeight, height],
+      outputRange: [0, 1],
+    });
+
+    console.log('opacity:');
+    console.log(transform);
+    return {
+      ...this.imageAnimation.getLayout(),
+      opacity: transform,
+    };
+  }
+
   keyboardDidShow = (e) => {
+    Animated.timing(this.imageShown, {
+      toValue: 0,
+      duration: 300,
+    }).start();
+
     let newSize = Dimensions.get('window').height - e.endCoordinates.height;
     this.setState({
       visibleHeight: newSize,
@@ -68,30 +93,83 @@ class SearchScreen extends Component {
   };
 
   keyboardDidHide = () => {
+    Animated.timing(this.imageShown, {
+      toValue: 1,
+      duration: 300,
+    }).start();
+    const { height } = Dimensions.get('window');
     this.setState({
-      visibleHeight: Dimensions.get('window').height,
+      visibleHeight: height,
     });
   };
 
   render() {
+    const { text, visibleHeight } = this.state;
     return (
       <View
-        style={{ ...styles.container, maxHeight: this.state.visibleHeight }}
+        style={{
+          ...styles.container,
+          maxHeight: visibleHeight,
+        }}
       >
-        <View style={styles.textContainer}>
-          <Text style={styles.backgroundText}>{this.state.text}</Text>
+        <View style={[styles.topSection, styles.shadow]}>
+          <Animated.View style={{ opacity: this.imageShown }}>
+            <Image source={Logo} />
+          </Animated.View>
         </View>
-        <View style={styles.searchBar}>
-          <SearchBar
-            inputStyle={{ height: 60 }}
-            noIcon
-            onChangeText={this.onChangeText}
-            onClearText={this.onClearText}
-            clearButtonMode="always"
-            placeholder="Type Here..."
-            value={this.state.searchText}
-            onSubmitEditing={this.onSubmit}
-          />
+        <View style={styles.languageChooserContainer}>
+          <View
+            style={{
+              height: 40,
+              backgroundColor: BACKGROUND_COLOR,
+              justifyContent: 'flex-end',
+              padding: 2,
+            }}
+          >
+            <Text style={styles.languageChooserText}>
+              Choose the languages:
+            </Text>
+          </View>
+          <View style={[styles.languageChooser, styles.shadow]}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-evenly',
+              }}
+            >
+              <Button
+                buttonStyle={[
+                  {
+                    height: 50,
+                    width: 130,
+                    backgroundColor: BACKGROUND_COLOR,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: 8,
+                  },
+                  styles.shadow,
+                ]}
+                {...styles.languageChooserText}
+                title="de"
+              />
+              <Button
+                buttonStyle={[
+                  {
+                    height: 50,
+                    width: 130,
+                    backgroundColor: BACKGROUND_COLOR,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: 8,
+                  },
+                  styles.shadow,
+                ]}
+                {...styles.languageChooserText}
+                title="en"
+              />
+            </View>
+          </View>
+          <SearchBar onSubmit={this.onSubmit} />
         </View>
       </View>
     );
@@ -106,14 +184,10 @@ export default connect(
 const styles = StyleSheet.create({
   searchBar: {
     width: Dimensions.get('window').width,
-    justifyContent: 'flex-end',
-    height: 80,
   },
   container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#6D4C41',
     flex: 1,
+    backgroundColor: BACKGROUND_COLOR,
   },
   backgroundText: {
     fontSize: 25,
@@ -127,4 +201,41 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
+  languageChooserContainer: {
+    flex: 1,
+    minHeight: 200,
+  },
+  languageChooser: {
+    backgroundColor: SECONDARY_BACKGROUND_COLOR,
+    flex: 1,
+    minHeight: 60,
+    justifyContent: 'center',
+  },
+  topSection: {
+    flex: 3,
+    backgroundColor: SECONDARY_BACKGROUND_COLOR,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  shadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  languageChooserText: {
+    color: TEXT_COLOR,
+    fontWeight: '100',
+    fontSize: 18,
+  },
 });
+
+{
+  /* <View style={styles.textContainer}>
+<Text style={styles.backgroundText}>{text}</Text>
+</View> */
+}

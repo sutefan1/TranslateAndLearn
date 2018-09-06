@@ -9,6 +9,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "lodash": "^4.17.10",
+    "prop-types": "^15.6.2",
     "react": "16.4.1",
     "react-native": "0.56.0",
     "react-native-elements": "^0.19.1",
