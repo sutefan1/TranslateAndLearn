@@ -30,6 +30,10 @@ class SearchScreen extends Component {
 
   imageShown = new Animated.Value(0.3);
 
+  imageScale = new Animated.Value(1);
+
+  viewHeight = new Animated.Value(1);
+
   componentDidMount() {
     this.keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
@@ -64,28 +68,8 @@ class SearchScreen extends Component {
     });
   };
 
-  getImageStyle() {
-    const { height } = Dimensions.get('window');
-    const { visibleHeight } = this.state;
-    const transform = this.imageAnimation.x.interpolate({
-      inputRange: [visibleHeight, height],
-      outputRange: [0, 1],
-    });
-
-    console.log('opacity:');
-    console.log(transform);
-    return {
-      ...this.imageAnimation.getLayout(),
-      opacity: transform,
-    };
-  }
-
   keyboardDidShow = (e) => {
-    Animated.timing(this.imageShown, {
-      toValue: 0,
-      duration: 300,
-    }).start();
-
+    this.startImageAnimation(0);
     let newSize = Dimensions.get('window').height - e.endCoordinates.height;
     this.setState({
       visibleHeight: newSize,
@@ -93,18 +77,40 @@ class SearchScreen extends Component {
   };
 
   keyboardDidHide = () => {
-    Animated.timing(this.imageShown, {
-      toValue: 1,
-      duration: 300,
-    }).start();
+    this.startImageAnimation(1);
     const { height } = Dimensions.get('window');
     this.setState({
       visibleHeight: height,
     });
   };
 
+  startImageAnimation(toValue) {
+    // const scaleAnimation = Animated.timing(this.imageScale, {
+    //   toValue,
+    //   duration: 100,
+    // });
+    // const opacityAnimation = Animated.timing(this.imageShown, {
+    //   toValue,
+    //   duration: 300,
+    // }).start();
+    // Animated.parallel([scaleAnimation, opacityAnimation]).start();
+  }
+
+  onLayout = (e) => {
+    this.viewHeight.setValue(e.nativeEvent.layout.height);
+  };
+
   render() {
     const { text, visibleHeight } = this.state;
+    const { height: imageHeight } = Image.resolveAssetSource(Logo);
+    const scale = this.viewHeight.interpolate({
+      inputRange: [imageHeight * 0.6, 300],
+      outputRange: [0.5, 1],
+    });
+    const imageOpacity = this.viewHeight.interpolate({
+      inputRange: [imageHeight * 0.5 - 1, imageHeight * 0.5],
+      outputRange: [0, 1],
+    });
     return (
       <View
         style={{
@@ -112,8 +118,16 @@ class SearchScreen extends Component {
           maxHeight: visibleHeight,
         }}
       >
-        <View style={[styles.topSection, styles.shadow]}>
-          <Animated.View style={{ opacity: this.imageShown }}>
+        <View
+          style={[styles.topSection, styles.shadow]}
+          onLayout={this.onLayout}
+        >
+          <Animated.View
+            style={{
+              opacity: imageOpacity,
+              transform: [{ scale }],
+            }}
+          >
             <Image source={Logo} />
           </Animated.View>
         </View>
@@ -203,7 +217,7 @@ const styles = StyleSheet.create({
   },
   languageChooserContainer: {
     flex: 1,
-    minHeight: 200,
+    minHeight: 180,
   },
   languageChooser: {
     backgroundColor: SECONDARY_BACKGROUND_COLOR,
