@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { View, TextInput, Keyboard } from 'react-native';
+import {
+  View, TextInput, Keyboard, StyleSheet,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import {
   BACKGROUND_COLOR,
@@ -59,7 +61,7 @@ class SearchBar extends Component {
   }
 }
 
-const styles = {
+const styles = StyleSheet.create({
   input: {
     height: 60,
     backgroundColor: TEXTINPUT_BACKGROUND_COLOR,
@@ -73,9 +75,10 @@ const styles = {
   },
   container: {
     backgroundColor: BACKGROUND_COLOR,
-    paddingVertical: 10,
+    minHeight: 80,
+    justifyContent: 'center',
     paddingHorizontal: 6,
   },
-};
+});
 
 export default SearchBar;

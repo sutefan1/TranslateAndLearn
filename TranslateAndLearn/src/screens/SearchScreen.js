@@ -18,21 +18,30 @@ import {
   BACKGROUND_COLOR,
   SECONDARY_BACKGROUND_COLOR,
   TEXT_COLOR,
+  STYLE_SHADOW,
+  SECONDARY_TEXT_COLOR,
 } from '../Constants';
 import SearchBar from '../components/SearchBar';
+import LanguageChooser from '../components/LanguageChooser';
 import Logo from '../../assets/Logo.png';
 
 class SearchScreen extends Component {
   state = {
-    text: '',
     visibleHeight: Dimensions.get('window').height,
+    logoFadedOut: false,
+    lastSearchText: 'Hallo, wie geht es dir?',
+    translatedText: 'Hello, how are you?',
   };
 
-  imageShown = new Animated.Value(0.3);
+  logoOpacity = new Animated.Value(0.1);
 
-  imageScale = new Animated.Value(1);
+  logoScale = new Animated.Value(1);
 
-  viewHeight = new Animated.Value(1);
+  contentOpacity = new Animated.Value(0);
+
+  contentScale = new Animated.Value(1);
+
+  topSectionOpacity = new Animated.Value(1);
 
   componentDidMount() {
     this.keyboardDidShowListener = Keyboard.addListener(
@@ -43,10 +52,21 @@ class SearchScreen extends Component {
       'keyboardDidHide',
       this.keyboardDidHide,
     );
-    Animated.timing(this.imageShown, {
+    Animated.timing(this.logoOpacity, {
       toValue: 1,
-      duration: 1000,
-    }).start();
+      duration: 2000,
+    }).start(() => {
+      Animated.timing(this.logoOpacity, {
+        toValue: 0,
+        duration: 1000,
+      }).start(() => {
+        this.setState({ logoFadedOut: true });
+        Animated.timing(this.contentOpacity, {
+          toValue: 1,
+          duration: 1000,
+        }).start();
+      });
+    });
   }
 
   componentWillUnmount() {
@@ -64,12 +84,13 @@ class SearchScreen extends Component {
 
     this.props.addTranslation({ de: searchText, en: concatinatedText });
     this.setState({
-      text: concatinatedText,
+      translatedText: concatinatedText,
+      lastSearchText: searchText,
     });
   };
 
   keyboardDidShow = (e) => {
-    this.startImageAnimation(0);
+    this.startTopViewAnimation(0);
     let newSize = Dimensions.get('window').height - e.endCoordinates.height;
     this.setState({
       visibleHeight: newSize,
@@ -77,40 +98,29 @@ class SearchScreen extends Component {
   };
 
   keyboardDidHide = () => {
-    this.startImageAnimation(1);
+    this.startTopViewAnimation(1);
     const { height } = Dimensions.get('window');
     this.setState({
       visibleHeight: height,
     });
   };
 
-  startImageAnimation(toValue) {
-    // const scaleAnimation = Animated.timing(this.imageScale, {
-    //   toValue,
-    //   duration: 100,
-    // });
-    // const opacityAnimation = Animated.timing(this.imageShown, {
-    //   toValue,
-    //   duration: 300,
-    // }).start();
-    // Animated.parallel([scaleAnimation, opacityAnimation]).start();
+  startTopViewAnimation(toValue) {
+    Animated.timing(this.topSectionOpacity, {
+      toValue,
+      duration: 100,
+    }).start();
   }
 
-  onLayout = (e) => {
-    this.viewHeight.setValue(e.nativeEvent.layout.height);
-  };
-
   render() {
-    const { text, visibleHeight } = this.state;
-    const { height: imageHeight } = Image.resolveAssetSource(Logo);
-    const scale = this.viewHeight.interpolate({
-      inputRange: [imageHeight * 0.6, 300],
-      outputRange: [0.5, 1],
-    });
-    const imageOpacity = this.viewHeight.interpolate({
-      inputRange: [imageHeight * 0.5 - 1, imageHeight * 0.5],
-      outputRange: [0, 1],
-    });
+    const {
+      text,
+      visibleHeight,
+      logoFadedOut,
+      lastSearchText,
+      translatedText,
+    } = this.state;
+
     return (
       <View
         style={{
@@ -118,71 +128,68 @@ class SearchScreen extends Component {
           maxHeight: visibleHeight,
         }}
       >
-        <View
-          style={[styles.topSection, styles.shadow]}
-          onLayout={this.onLayout}
+        <Animated.View
+          style={[
+            styles.topSection,
+            STYLE_SHADOW,
+            { opacity: this.topSectionOpacity },
+          ]}
         >
-          <Animated.View
-            style={{
-              opacity: imageOpacity,
-              transform: [{ scale }],
-            }}
-          >
-            <Image source={Logo} />
-          </Animated.View>
-        </View>
-        <View style={styles.languageChooserContainer}>
-          <View
-            style={{
-              height: 40,
-              backgroundColor: BACKGROUND_COLOR,
-              justifyContent: 'flex-end',
-              padding: 2,
-            }}
-          >
-            <Text style={styles.languageChooserText}>
-              Choose the languages:
-            </Text>
-          </View>
-          <View style={[styles.languageChooser, styles.shadow]}>
-            <View
+          {logoFadedOut ? (
+            <Animated.View
               style={{
-                flexDirection: 'row',
-                justifyContent: 'space-evenly',
+                transform: [{ scale: this.contentScale }],
+                opacity: this.contentOpacity,
+                marginHorizontal: 25,
               }}
             >
-              <Button
-                buttonStyle={[
-                  {
-                    height: 50,
-                    width: 130,
-                    backgroundColor: BACKGROUND_COLOR,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderRadius: 8,
-                  },
-                  styles.shadow,
-                ]}
-                {...styles.languageChooserText}
-                title="de"
-              />
-              <Button
-                buttonStyle={[
-                  {
-                    height: 50,
-                    width: 130,
-                    backgroundColor: BACKGROUND_COLOR,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderRadius: 8,
-                  },
-                  styles.shadow,
-                ]}
-                {...styles.languageChooserText}
-                title="en"
-              />
-            </View>
-          </View>
+              <View>
+                <Text
+                  style={{
+                    fontSize: 11,
+                    fontWeight: '100',
+                    color: SECONDARY_TEXT_COLOR,
+                  }}
+                >
+                  de
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 22,
+                    fontWeight: '500',
+                    color: SECONDARY_TEXT_COLOR,
+                  }}
+                >
+                  {lastSearchText}
+                </Text>
+              </View>
+              <View>
+                <Text
+                  style={{ fontSize: 18, fontWeight: '100', color: TEXT_COLOR }}
+                >
+                  en
+                </Text>
+                <Text
+                  style={{ fontSize: 36, fontWeight: '500', color: TEXT_COLOR }}
+                >
+                  {translatedText}
+                </Text>
+              </View>
+            </Animated.View>
+          ) : (
+            <Animated.Image
+              source={Logo}
+              style={{
+                transform: [{ scale: this.logoScale }],
+                opacity: this.logoOpacity,
+                alignSelf: 'center',
+                justifyContent: 'center',
+              }}
+            />
+          )}
+        </Animated.View>
+        <View style={styles.bottomSection}>
+          <LanguageChooser />
           <SearchBar onSubmit={this.onSubmit} />
         </View>
       </View>
@@ -196,9 +203,6 @@ export default connect(
 )(SearchScreen);
 
 const styles = StyleSheet.create({
-  searchBar: {
-    width: Dimensions.get('window').width,
-  },
   container: {
     flex: 1,
     backgroundColor: BACKGROUND_COLOR,
@@ -215,41 +219,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
-  languageChooserContainer: {
-    flex: 1,
-    minHeight: 180,
-  },
-  languageChooser: {
-    backgroundColor: SECONDARY_BACKGROUND_COLOR,
-    flex: 1,
-    minHeight: 60,
-    justifyContent: 'center',
-  },
   topSection: {
-    flex: 3,
+    flex: 1,
     backgroundColor: SECONDARY_BACKGROUND_COLOR,
-    alignItems: 'center',
     justifyContent: 'center',
   },
-  shadow: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  languageChooserText: {
-    color: TEXT_COLOR,
-    fontWeight: '100',
-    fontSize: 18,
+  bottomSection: {
+    height: 260,
   },
 });
-
-{
-  /* <View style={styles.textContainer}>
-<Text style={styles.backgroundText}>{text}</Text>
-</View> */
-}
