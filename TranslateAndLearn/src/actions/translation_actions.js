@@ -9,12 +9,17 @@ import {
 import { API_KEY, ROOT_URL } from '../Constants';
 
 export const translate = ({ input, lang: { from, to } }) => async (dispatch) => {
+  const url = `${ROOT_URL}?key=${API_KEY}&q=${input}&source=${from}&target=${to}`;
   let {
-    data: { text },
-  } = await axios.get(
-    `${ROOT_URL}?key=${API_KEY}&text=${input}&lang=${from}-${to}`,
+    data: {
+      data: { translations },
+    },
+  } = await axios.get(url);
+
+  const concatinatedText = translations.reduce(
+    (prev, current) => prev + current.translatedText,
+    '',
   );
-  const concatinatedText = text.reduce((prev, current) => prev + current);
   const payload = {
     lang: {
       from,
