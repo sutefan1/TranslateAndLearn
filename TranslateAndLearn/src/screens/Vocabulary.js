@@ -10,7 +10,7 @@ import {
 import { connect } from 'react-redux';
 import { Button, Icon, Divider } from 'react-native-elements';
 import Swipeable from 'react-native-swipeable';
-import * as actions from '../actions/history_actions';
+import * as translationActions from '../actions/translation_actions';
 
 class Vocabulary extends Component {
   state = {
@@ -47,7 +47,7 @@ class Vocabulary extends Component {
             ellipsizeMode="tail"
             numberOfLines={3}
           >
-            {item.de}
+            {item.input}
           </Text>
         </View>
         <View style={{ flex: 1 }}>
@@ -59,7 +59,7 @@ class Vocabulary extends Component {
             ellipsizeMode="middle"
             numberOfLines={3}
           >
-            {item.en}
+            {item.output}
           </Text>
         </View>
       </View>
@@ -152,11 +152,11 @@ class Vocabulary extends Component {
   }
 }
 
-const mapStateToProps = ({ history }) => ({ history });
+const mapStateToProps = ({ translation: { history } }) => ({ history });
 
 export default connect(
   mapStateToProps,
-  actions,
+  translationActions,
 )(Vocabulary);
 
 const styles = StyleSheet.create({

@@ -9,12 +9,8 @@ import {
   Animated,
 } from 'react-native';
 import { connect } from 'react-redux';
-import axios from 'axios';
-import { Button } from 'react-native-elements';
-import { addTranslation } from '../actions/history_actions';
+import * as tranlationActions from '../actions/translation_actions';
 import {
-  ROOT_URL,
-  API_KEY,
   BACKGROUND_COLOR,
   SECONDARY_BACKGROUND_COLOR,
   TEXT_COLOR,
@@ -74,19 +70,8 @@ class SearchScreen extends Component {
     this.keyboardDidHideListener.remove();
   }
 
-  onSubmit = async (searchText) => {
-    let {
-      data: { text },
-    } = await axios.get(
-      `${ROOT_URL}?key=${API_KEY}&text=${searchText}&lang=de-en`,
-    );
-    const concatinatedText = text.reduce((prev, current) => prev + current);
-
-    this.props.addTranslation({ de: searchText, en: concatinatedText });
-    this.setState({
-      translatedText: concatinatedText,
-      lastSearchText: searchText,
-    });
+  onSubmit = (searchText) => {
+    this.props.translate(searchText);
   };
 
   keyboardDidShow = (e) => {
@@ -113,13 +98,9 @@ class SearchScreen extends Component {
   }
 
   render() {
-    const {
-      text,
-      visibleHeight,
-      logoFadedOut,
-      lastSearchText,
-      translatedText,
-    } = this.state;
+    const { visibleHeight, logoFadedOut } = this.state;
+
+    const { lastTranslation } = this.props;
 
     return (
       <View
@@ -160,7 +141,7 @@ class SearchScreen extends Component {
                     color: SECONDARY_TEXT_COLOR,
                   }}
                 >
-                  {lastSearchText}
+                  {lastTranslation.input}
                 </Text>
               </View>
               <View>
@@ -172,7 +153,7 @@ class SearchScreen extends Component {
                 <Text
                   style={{ fontSize: 36, fontWeight: '500', color: TEXT_COLOR }}
                 >
-                  {translatedText}
+                  {lastTranslation.output}
                 </Text>
               </View>
             </Animated.View>
@@ -197,9 +178,13 @@ class SearchScreen extends Component {
   }
 }
 
+const mapStateToProps = ({ translation: { lastTranslation } }) => ({
+  lastTranslation,
+});
+
 export default connect(
-  null,
-  { addTranslation },
+  mapStateToProps,
+  tranlationActions,
 )(SearchScreen);
 
 const styles = StyleSheet.create({

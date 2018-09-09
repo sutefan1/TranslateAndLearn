@@ -1,9 +1,10 @@
-import { combineReducers, createStore } from 'redux';
-import history from './history_reducer';
-// import translation from '../reducers/translation_reducer';
+import { combineReducers, createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import translation from './translation_reducer';
 
 export default createStore(
   combineReducers({
-    history,
+    translation,
   }),
+  applyMiddleware(thunk),
 );
