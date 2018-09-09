@@ -7,6 +7,7 @@ import {
   Dimensions,
   Image,
   Animated,
+  StatusBar,
 } from 'react-native';
 import { connect } from 'react-redux';
 import * as tranlationActions from '../actions/translation_actions';
@@ -25,7 +26,10 @@ class SearchScreen extends Component {
   state = {
     visibleHeight: Dimensions.get('window').height,
     logoFadedOut: false,
-    searchText: '',
+    lang: {
+      from: 'de',
+      to: 'en',
+    },
   };
 
   logoOpacity = new Animated.Value(0.1);
@@ -70,8 +74,9 @@ class SearchScreen extends Component {
   }
 
   onSubmit = (searchText) => {
-    this.props.setTranslationPlaceholder(searchText);
-    this.props.translate(searchText);
+    const { lang } = this.state;
+    this.props.setTranslationPlaceholder({ lang, input: searchText });
+    this.props.translate({ lang, input: searchText });
   };
 
   keyboardDidShow = (e) => {
@@ -109,6 +114,10 @@ class SearchScreen extends Component {
           maxHeight: visibleHeight,
         }}
       >
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor={SECONDARY_BACKGROUND_COLOR}
+        />
         <Animated.View
           style={[
             styles.topSection,
@@ -132,7 +141,7 @@ class SearchScreen extends Component {
                     color: SECONDARY_TEXT_COLOR,
                   }}
                 >
-                  de
+                  {lastTranslation.lang.from}
                 </Text>
                 <Text
                   style={{
@@ -148,7 +157,7 @@ class SearchScreen extends Component {
                 <Text
                   style={{ fontSize: 18, fontWeight: '100', color: TEXT_COLOR }}
                 >
-                  en
+                  {lastTranslation.lang.to}
                 </Text>
                 <Text
                   style={{ fontSize: 36, fontWeight: '500', color: TEXT_COLOR }}

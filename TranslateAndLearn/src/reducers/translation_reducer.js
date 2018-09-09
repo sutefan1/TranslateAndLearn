@@ -8,6 +8,10 @@ import {
 
 const INITAL_STATE = {
   lastTranslation: {
+    lang: {
+      from: 'de',
+      to: 'en',
+    },
     input: 'Hallo, wie geht es dir?',
     output: 'Hello, how are you?',
   },
