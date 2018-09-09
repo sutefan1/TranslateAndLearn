@@ -25,8 +25,7 @@ class SearchScreen extends Component {
   state = {
     visibleHeight: Dimensions.get('window').height,
     logoFadedOut: false,
-    lastSearchText: 'Hallo, wie geht es dir?',
-    translatedText: 'Hello, how are you?',
+    searchText: '',
   };
 
   logoOpacity = new Animated.Value(0.1);
@@ -71,6 +70,7 @@ class SearchScreen extends Component {
   }
 
   onSubmit = (searchText) => {
+    this.props.setTranslationPlaceholder(searchText);
     this.props.translate(searchText);
   };
 

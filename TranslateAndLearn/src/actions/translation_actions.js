@@ -1,5 +1,10 @@
 import axios from 'axios';
-import { TRANSLATE, REMOVE_TRANSLATION, CLEAR_TRANSLATIONS } from './types';
+import {
+  TRANSLATE,
+  REMOVE_TRANSLATION,
+  CLEAR_TRANSLATIONS,
+  SET_TRANSLATION_PLACEHOLDER,
+} from './types';
 import { API_KEY, ROOT_URL } from '../Constants';
 
 export const translate = input => async (dispatch) => {
@@ -13,6 +18,14 @@ export const translate = input => async (dispatch) => {
   };
   dispatch({ type: TRANSLATE, payload });
 };
+
+export const setTranslationPlaceholder = input => ({
+  type: SET_TRANSLATION_PLACEHOLDER,
+  payload: {
+    input,
+    output: '...',
+  },
+});
 
 export const removeTranslation = translation => ({
   type: REMOVE_TRANSLATION,

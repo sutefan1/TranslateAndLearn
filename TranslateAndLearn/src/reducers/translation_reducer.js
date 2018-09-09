@@ -3,6 +3,7 @@ import {
   TRANSLATE,
   REMOVE_TRANSLATION,
   CLEAR_TRANSLATIONS,
+  SET_TRANSLATION_PLACEHOLDER,
 } from '../actions/types';
 
 const INITAL_STATE = {
@@ -20,6 +21,9 @@ export default (state = INITAL_STATE, action) => {
         lastTranslation: action.payload,
         history: [...state.history, action.payload],
       };
+    }
+    case SET_TRANSLATION_PLACEHOLDER: {
+      return { ...state, lastTranslation: action.payload };
     }
     case REMOVE_TRANSLATION: {
       return {
