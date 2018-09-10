@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   Keyboard,
+  Animated,
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
@@ -17,7 +18,47 @@ import {
 } from '../Constants';
 import Arrow from '../../assets/Arrow.png';
 
+// const makeClassBased = (WrappedComponent) => {
+//   class HOC extends React.Component {
+//     render() {
+//       return <WrappedComponent {...this.props} />;
+//     }
+//   }
+
+//   return HOC;
+// };
+
+// const ButtonClassComponent = makeClassBased(Button);
+// const AnimatedButton = Animated.createAnimatedComponent(ButtonClassComponent);
+
 class LanguageChooser extends Component {
+  moveAnimationFrom = new Animated.Value(0);
+
+  moveAnimationTo = new Animated.Value(0);
+
+  componentWillReceiveProps(prevProps, nextProps) {
+    if (prevProps.from !== nextProps.from && prevProps.to !== nextProps.to) {
+      const moveFromTextToCenter = Animated.timing(this.moveAnimationFrom, {
+        toValue: 1,
+      });
+      const moveToTextToCenter = Animated.timing(this.moveAnimationTo, {
+        toValue: 1,
+      });
+      Animated.parallel([moveFromTextToCenter, moveToTextToCenter]).start(
+        () => {
+          const moveFromTextBack = Animated.timing(this.moveAnimationFrom, {
+            toValue: 0,
+          });
+          const moveToTextBack = Animated.timing(this.moveAnimationTo, {
+            toValue: 0,
+          });
+          // TODO: set State and change labels
+          Animated.parallel([moveFromTextBack, moveToTextBack]).start();
+        },
+      );
+    }
+  }
+
   onPressInput = () => {
     Keyboard.dismiss();
     // open screen for languages
@@ -40,8 +81,26 @@ class LanguageChooser extends Component {
     });
   };
 
+  onPressSwitch = () => {
+    const {
+      to, from, onChangeFrom, onChangeTo,
+    } = this.props;
+
+    onChangeFrom(to);
+    onChangeTo(from);
+  };
+
   render() {
     const { style } = this.props;
+    const moveFromText = this.moveAnimationFrom.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 60],
+    });
+    const moveToText = this.moveAnimationTo.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 60],
+    });
+    console.log(moveFromText);
     return (
       <View style={[styles.container, style]}>
         <View style={styles.textContainer}>
@@ -59,12 +118,13 @@ class LanguageChooser extends Component {
               <Button
                 buttonStyle={[styles.button, STYLE_SHADOW]}
                 {...styles.text}
+                // textStyle={{ paddingLeft: moveFromText }}
                 title={this.props.from}
                 onPress={this.onPressInput}
               />
             </View>
 
-            <TouchableOpacity underlayColor="red">
+            <TouchableOpacity onPress={this.onPressSwitch}>
               <Image
                 style={{ height: 50, resizeMode: 'center' }}
                 source={Arrow}
@@ -76,6 +136,7 @@ class LanguageChooser extends Component {
               <Button
                 buttonStyle={[styles.button, STYLE_SHADOW]}
                 {...styles.text}
+                // textStyle={{ paddingRight: moveToText }}
                 title={this.props.to}
                 onPress={this.onPressOutput}
               />
