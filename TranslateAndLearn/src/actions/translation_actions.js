@@ -1,32 +1,33 @@
-import axios from 'axios';
+import axios from "axios";
 import {
   TRANSLATE,
   REMOVE_TRANSLATION,
   CLEAR_TRANSLATIONS,
-  SET_TRANSLATION_PLACEHOLDER,
-} from './types';
+  SET_TRANSLATION_PLACEHOLDER
+} from "./types";
 
-import { API_KEY, ROOT_URL } from '../Constants';
+import { ROOT_URL } from "../Constants";
+import API_KEY from "../ApiKey";
 
-export const translate = ({ input, lang: { from, to } }) => async (dispatch) => {
+export const translate = ({ input, lang: { from, to } }) => async dispatch => {
   const url = `${ROOT_URL}?key=${API_KEY}&q=${input}&source=${from}&target=${to}`;
   let {
     data: {
-      data: { translations },
-    },
+      data: { translations }
+    }
   } = await axios.get(url);
 
   const concatinatedText = translations.reduce(
     (prev, current) => prev + current.translatedText,
-    '',
+    ""
   );
   const payload = {
     lang: {
       from,
-      to,
+      to
     },
     input,
-    output: concatinatedText,
+    output: concatinatedText
   };
   dispatch({ type: TRANSLATE, payload });
 };
@@ -36,16 +37,16 @@ export const setTranslationPlaceholder = ({ input, lang: { from, to } }) => ({
   payload: {
     lang: {
       from,
-      to,
+      to
     },
     input,
-    output: '...',
-  },
+    output: "..."
+  }
 });
 
 export const removeTranslation = translation => ({
   type: REMOVE_TRANSLATION,
-  payload: translation,
+  payload: translation
 });
 
 export const clearTranslations = () => ({ type: CLEAR_TRANSLATIONS });
