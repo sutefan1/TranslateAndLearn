@@ -102,6 +102,22 @@ class SearchScreen extends Component {
     }).start();
   }
 
+  onChangeFrom = (from) => {
+    this.setState((prevState) => {
+      const state = { ...prevState };
+      state.lang.from = from;
+      return state;
+    });
+  };
+
+  onChangeTo = (to) => {
+    this.setState((prevState) => {
+      const state = { ...prevState };
+      state.lang.to = to;
+      return state;
+    });
+  };
+
   render() {
     const { visibleHeight, logoFadedOut } = this.state;
 
@@ -179,7 +195,12 @@ class SearchScreen extends Component {
           )}
         </Animated.View>
         <View style={styles.bottomSection}>
-          <LanguageChooser />
+          <LanguageChooser
+            from={this.state.lang.from}
+            to={this.state.lang.to}
+            onChangeFrom={this.onChangeFrom}
+            onChangeTo={this.onChangeTo}
+          />
           <SearchBar onSubmit={this.onSubmit} />
         </View>
       </View>

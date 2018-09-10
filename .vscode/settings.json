@@ -1,0 +1,15 @@
+{
+  // Use 'prettier-eslint' instead of 'prettier'. Other settings will only be fallbacks in case they could not be inferred from eslint rules.
+  "eslint.enable": true,
+  "eslint.run": "onSave",
+  "editor.formatOnSave": true,
+  "javascript.format.enable": false,
+  "javascript.validate.enable": false,
+  "eslint.autoFixOnSave": true,
+  // "flow.pathToFlow": "${workspaceRoot}/node_modules/.bin/flow",
+  // "flow.enabled": false,
+  "eslint.alwaysShowStatus": true,
+  "eslint.nodePath": "node_modules/.bin/eslint",
+  "eslint.trace.server": "messages",
+  "java.configuration.updateBuildConfiguration": "disabled"
+}

@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { createBottomTabNavigator } from 'react-navigation';
+import {
+  createBottomTabNavigator,
+  createStackNavigator,
+} from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import { Provider } from 'react-redux';
 import store from './reducers';
@@ -10,6 +13,7 @@ import {
   INACTIVE_TINTCOLOR,
   ACTIVE_TINTCOLOR,
 } from './Constants';
+import LanguageChooserScreen from './screens/LanguageChooserScreen';
 
 /* eslint-disable react/prop-types */
 
@@ -47,9 +51,21 @@ class Router extends Component {
         },
       },
     );
+    const StackNavigator = createStackNavigator(
+      {
+        tabBar: {
+          screen: TabBar,
+          navigationOptions: { header: null },
+        },
+        languageChooser: {
+          screen: LanguageChooserScreen,
+        },
+      },
+      { mode: 'modal' },
+    );
     return (
       <Provider store={store}>
-        <TabBar />
+        <StackNavigator />
       </Provider>
     );
   }

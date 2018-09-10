@@ -5,6 +5,14 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Attach to packager",
+      "program": "${workspaceRoot}/.vscode/launchReactNative.js",
+      "type": "reactnative",
+      "request": "attach",
+      "sourceMaps": true,
+      "outDir": "${workspaceRoot}/.vscode/.react"
+    },
+    {
       "name": "Debug Android",
       "program": "${workspaceRoot}/.vscode/launchReactNative.js",
       "type": "reactnative",
@@ -12,12 +20,6 @@
       "platform": "android",
       "sourceMaps": true,
       "outDir": "${workspaceRoot}/.vscode/.react"
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Launch Program",
-      "program": "${workspaceFolder}/start"
     }
   ]
 }
