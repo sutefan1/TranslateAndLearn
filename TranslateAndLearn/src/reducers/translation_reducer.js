@@ -15,7 +15,86 @@ const INITAL_STATE = {
     input: 'Hallo, wie geht es dir?',
     output: 'Hello, how are you?',
   },
-  history: [],
+  history: [
+    {
+      lang: {
+        from: 'de',
+        to: 'en',
+      },
+      input: 'Hallo, wie geht es dirasdfsadf?',
+      output: 'Hello, how are youasdfasd?',
+    },
+
+    {
+      lang: {
+        from: 'de',
+        to: 'en',
+      },
+      input: 'Hallo, wie geht es dir?',
+      output: 'Hello, how are you?',
+    },
+
+    {
+      lang: {
+        from: 'de',
+        to: 'en',
+      },
+      input: 'Hallo, wie geht es dir?',
+      output: 'Hello, how are you?',
+    },
+
+    {
+      lang: {
+        from: 'de',
+        to: 'en',
+      },
+      input: 'Hallo, wie geht es dir?',
+      output: 'Hello, how are you?',
+    },
+
+    {
+      lang: {
+        from: 'de',
+        to: 'en',
+      },
+      input: 'Hallo, wie geht es dir?',
+      output: 'Hello, how are you?',
+    },
+
+    {
+      lang: {
+        from: 'de',
+        to: 'en',
+      },
+      input: 'Hallo, wie geht es dir?',
+      output: 'Hello, how are you?',
+    },
+
+    {
+      lang: {
+        from: 'de',
+        to: 'en',
+      },
+      input: 'Hallo, wie geht es dir?',
+      output: 'Hello, how are you?',
+    },
+    {
+      lang: {
+        from: 'de',
+        to: 'en',
+      },
+      input: 'Hallo, wie geht es dir?',
+      output: 'Hello, how are you?',
+    },
+    {
+      lang: {
+        from: 'de',
+        to: 'en',
+      },
+      input: 'Hallo, wie geht es dir?',
+      output: 'Hello, how are you?',
+    },
+  ],
 };
 
 export default (state = INITAL_STATE, action) => {

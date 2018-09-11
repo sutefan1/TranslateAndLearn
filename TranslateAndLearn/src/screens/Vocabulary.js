@@ -6,78 +6,72 @@ import {
   FlatList,
   Platform,
   TouchableOpacity,
+  StatusBar,
+  Dimensions,
+  Image,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Button, Icon, Divider } from 'react-native-elements';
-import Swipeable from 'react-native-swipeable';
 import * as translationActions from '../actions/translation_actions';
+import {
+  BACKGROUND_COLOR,
+  SECONDARY_BACKGROUND_COLOR,
+  SECONDARY_TEXT_COLOR,
+  TEXT_COLOR,
+  SEPARATOR_COLOR,
+} from '../Constants';
+import ArrorRight from '../../assets/ArrowRight.png';
 
 class Vocabulary extends Component {
-  state = {
-    currentlyOpenSwipeable: null,
-  };
-
-  handleScroll = () => {
-    const { currentlyOpenSwipeable } = this.state;
-
-    if (currentlyOpenSwipeable) {
-      currentlyOpenSwipeable.recenter();
-    }
-  };
-
   keyExtractor = (item, index) => `${index}`;
 
   renderItem = ({ item }) => (
-    <Swipeable
-      rightButtons={[
-        <TouchableOpacity
-          style={[styles.rightSwipeItem, { backgroundColor: '#e53935' }]}
-          onPress={() => this.props.removeTranslation(item)}
+    <View style={styles.listItem}>
+      <View
+        style={{ justifyContent: 'space-around', paddingVertical: 5, flex: 3 }}
+      >
+        <Text style={{ fontSize: 18, color: SECONDARY_TEXT_COLOR }}>
+          {item.lang.from}
+        </Text>
+        <Text
+          style={{ fontSize: 18, color: TEXT_COLOR }}
+          numberOfLines={1}
+          ellipsizeMode="tail"
         >
-          <Text style={{ fontWeight: '800', color: 'white' }}>Delete</Text>
-        </TouchableOpacity>,
-      ]}
-      onRightButtonsOpenRelease={this.onOpen}
-      onRightButtonsCloseRelease={this.onClose}
-    >
-      <View style={styles.listItem}>
-        <View style={{ flex: 2 }}>
-          <Text
-            style={styles.listItemText}
-            ellipsizeMode="tail"
-            numberOfLines={3}
-          >
-            {item.input}
-          </Text>
-        </View>
-        <View style={{ flex: 1 }}>
-          <Icon name="long-arrow-right" type="font-awesome" color="#6D4C41" />
-        </View>
-        <View style={{ flex: 2 }}>
-          <Text
-            style={styles.listItemText}
-            ellipsizeMode="middle"
-            numberOfLines={3}
-          >
-            {item.output}
-          </Text>
-        </View>
+          {item.input}
+        </Text>
       </View>
-    </Swipeable>
-  );
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingTop: 20,
+          marginRight: 10,
+        }}
+      >
+        <Image
+          source={ArrorRight}
+          style={{
+            width: 30,
+            resizeMode: 'center',
+          }}
+        />
+      </View>
 
-  renderHeaderItem = () => (
-    <View style={styles.listHeaderContainer}>
-      <View style={styles.listHeaderItem}>
-        <View style={{ flex: 2 }}>
-          <Text style={styles.listHeaderItemText}>DE</Text>
-        </View>
-        <View style={{ flex: 1 }}>
-          <Icon name="long-arrow-right" type="font-awesome" color="white" />
-        </View>
-        <View style={{ flex: 2 }}>
-          <Text style={styles.listHeaderItemText}>EN</Text>
-        </View>
+      <View
+        style={{ justifyContent: 'space-around', paddingVertical: 5, flex: 3 }}
+      >
+        <Text style={{ fontSize: 18, color: SECONDARY_TEXT_COLOR }}>
+          {item.lang.to}
+        </Text>
+        <Text
+          style={{ fontSize: 18, color: TEXT_COLOR }}
+          numberOfLines={1}
+          ellipsizeMode="tail"
+        >
+          {item.output}
+        </Text>
       </View>
     </View>
   );
@@ -88,29 +82,20 @@ class Vocabulary extends Component {
         justifyContent: 'center',
         alignContent: 'center',
         flex: 1,
+        marginHorizontal: 20,
       }}
     >
       <Button
         large
         title="Start A Search"
-        textStyle={styles.backgroundText}
-        iconRight={{ name: 'search', type: 'font-awesome' }}
-        backgroundColor="#6D4C41"
+        titleStyle={styles.backgroundText}
+        iconRight
+        icon={{ name: 'search', type: 'font-awesome', color: 'white' }}
+        buttonStyle={{ backgroundColor: SECONDARY_BACKGROUND_COLOR }}
         onPress={() => this.props.navigation.navigate('search')}
       />
     </View>
   );
-
-  onOpen = (event, gestureState, swipeable) => {
-    const { currentlyOpenSwipeable } = this.state;
-    if (currentlyOpenSwipeable && currentlyOpenSwipeable !== swipeable) {
-      currentlyOpenSwipeable.recenter();
-    }
-
-    this.setState({ currentlyOpenSwipeable: swipeable });
-  };
-
-  onClose = () => this.setState({ currentlyOpenSwipeable: null });
 
   renderList = () => {
     const { history } = this.props;
@@ -118,22 +103,36 @@ class Vocabulary extends Component {
       return this.renderListEmptyItem();
     }
     return (
-      <View style={{ flex: 1, justifyContent: 'space-between' }}>
+      <View style={{ flex: 1, marginTop: 20, justifyContent: 'space-between' }}>
         <FlatList
           onScroll={this.handleScroll}
           data={history}
           keyExtractor={this.keyExtractor}
-          stickyHeaderIndices={[0]}
-          ListHeaderComponent={this.renderHeaderItem}
           renderItem={this.renderItem}
-          ItemSeparatorComponent={() => <Divider />}
+          ItemSeparatorComponent={() => (
+            <View
+              style={{
+                height: 1,
+                backgroundColor: SEPARATOR_COLOR,
+                alignSelf: 'center',
+                width: Dimensions.get('window').width * 0.75,
+                marginVertical: 5,
+              }}
+            />
+          )}
         />
-        <View style={{ marginVertical: 12 }}>
+        <View style={{ marginVertical: 12, marginHorizontal: 20 }}>
           <Button
             large
             title="Clear History"
-            icon={{ name: 'delete-forever' }}
-            backgroundColor="#e53935"
+            titleStyle={styles.backgroundText}
+            iconRight
+            icon={{
+              name: 'delete-forever',
+              type: 'material',
+              color: 'white',
+            }}
+            buttonStyle={{ backgroundColor: SECONDARY_BACKGROUND_COLOR }}
             onPress={() => this.props.clearTranslations()}
           />
         </View>
@@ -142,12 +141,23 @@ class Vocabulary extends Component {
   };
 
   render() {
-    return Platform.OS === 'ios' ? (
-      <View style={{ flex: 1, paddingTop: 20, backgroundColor: '#6D4C41' }}>
+    const view = (
+      <View style={{ flex: 1 }}>
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor={BACKGROUND_COLOR}
+        />
         <View style={styles.container}>{this.renderList()}</View>
       </View>
+    );
+    return Platform.OS === 'ios' ? (
+      <View
+        style={{ flex: 1, paddingTop: 20, backgroundColor: BACKGROUND_COLOR }}
+      >
+        {view}
+      </View>
     ) : (
-      <View style={styles.container}>{this.renderList()}</View>
+      view
     );
   }
 }
@@ -162,22 +172,19 @@ export default connect(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF',
+    backgroundColor: BACKGROUND_COLOR,
   },
   backgroundText: {
     fontSize: 25,
     fontWeight: '800',
   },
   listItem: {
-    marginLeft: 10,
-    marginRight: 10,
-    maxHeight: 100,
-    minHeight: 40,
-    backgroundColor: 'white',
+    marginHorizontal: 15,
+    height: 50,
     flexDirection: 'row',
     flex: 1,
     justifyContent: 'space-around',
-    alignItems: 'center',
+    alignContent: 'center',
   },
   listItemText: {
     color: '#6D4C41',

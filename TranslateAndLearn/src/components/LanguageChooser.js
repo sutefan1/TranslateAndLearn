@@ -88,6 +88,10 @@ class LanguageChooser extends Component {
       outputRange: [0, 65, 67, 70],
     });
 
+    const rotateButton = this.moveAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0deg', '180deg'],
+    });
     return (
       <View style={[styles.container, style]}>
         <View style={styles.textContainer}>
@@ -104,8 +108,6 @@ class LanguageChooser extends Component {
               <Text style={styles.smallText}>Input</Text>
               <Button
                 style={[styles.button, STYLE_SHADOW]}
-                // textStyle={{ paddingLeft: moveFromText }}
-                // title={this.props.from}
                 onPress={this.onPressInput}
               >
                 <Animated.View style={{ paddingLeft: moveText }}>
@@ -115,8 +117,12 @@ class LanguageChooser extends Component {
             </View>
 
             <TouchableOpacity onPress={this.onPressSwitch}>
-              <Image
-                style={{ height: 50, resizeMode: 'center' }}
+              <Animated.Image
+                style={{
+                  height: 50,
+                  resizeMode: 'center',
+                  transform: [{ rotate: rotateButton }],
+                }}
                 source={Arrow}
               />
             </TouchableOpacity>
@@ -126,7 +132,6 @@ class LanguageChooser extends Component {
               <Button
                 style={[styles.button, STYLE_SHADOW]}
                 {...styles.text}
-                // textStyle={{ paddingRight: moveToText }}
                 onPress={this.onPressOutput}
               >
                 <Animated.View style={{ paddingRight: moveText }}>
