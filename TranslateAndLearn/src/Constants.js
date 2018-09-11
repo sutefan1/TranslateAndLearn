@@ -10,6 +10,7 @@ export const TEXT_COLOR = '#ffffff';
 export const SECONDARY_TEXT_COLOR = 'rgba(204,204,204, 0.60)';
 export const TEXTINPUT_PLACEHOLDER_TEXT_COLOR = '#cccccc3a';
 export const TEXTINPUT_BORDER_COLOR = '#E1DEDE';
+export const RIPPLE_COLOR = '#838383';
 export const STYLE_SHADOW = {
   shadowColor: '#000',
   shadowOffset: {
@@ -19,4 +20,8 @@ export const STYLE_SHADOW = {
   shadowOpacity: 0.25,
   shadowRadius: 3.84,
   elevation: 5,
+};
+export const INITIAL_LANGUAGES = {
+  from: 'de',
+  to: 'en',
 };

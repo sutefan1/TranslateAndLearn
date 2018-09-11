@@ -7,55 +7,46 @@ import {
   TouchableOpacity,
   Keyboard,
   Animated,
+  Easing,
 } from 'react-native';
-import { Button } from 'react-native-elements';
+// import { Button } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
 import {
   BACKGROUND_COLOR,
   TEXT_COLOR,
   SECONDARY_BACKGROUND_COLOR,
   STYLE_SHADOW,
+  INITIAL_LANGUAGES,
 } from '../Constants';
+import Button from './Button';
 import Arrow from '../../assets/Arrow.png';
 
-// const makeClassBased = (WrappedComponent) => {
-//   class HOC extends React.Component {
-//     render() {
-//       return <WrappedComponent {...this.props} />;
-//     }
-//   }
-
-//   return HOC;
-// };
-
-// const ButtonClassComponent = makeClassBased(Button);
-// const AnimatedButton = Animated.createAnimatedComponent(ButtonClassComponent);
-
 class LanguageChooser extends Component {
-  moveAnimationFrom = new Animated.Value(0);
+  state = {
+    from: INITIAL_LANGUAGES.from,
+    to: INITIAL_LANGUAGES.to,
+  };
 
-  moveAnimationTo = new Animated.Value(0);
+  moveAnimation = new Animated.Value(0);
 
-  componentWillReceiveProps(prevProps, nextProps) {
-    if (prevProps.from !== nextProps.from && prevProps.to !== nextProps.to) {
-      const moveFromTextToCenter = Animated.timing(this.moveAnimationFrom, {
+  componentWillReceiveProps(nextProps) {
+    if (!this.state.from && !this.state.to) {
+      this.setState({ from: nextProps.from, to: nextProps.to });
+      return;
+    }
+    if (this.props.from !== nextProps.from && this.props.to !== nextProps.to) {
+      const moveToCenter = Animated.timing(this.moveAnimation, {
         toValue: 1,
+        duration: 200,
       });
-      const moveToTextToCenter = Animated.timing(this.moveAnimationTo, {
-        toValue: 1,
+      moveToCenter.start(() => {
+        const moveTextBack = Animated.timing(this.moveAnimation, {
+          toValue: 0,
+          duration: 200,
+        });
+        this.setState({ from: nextProps.from, to: nextProps.to });
+        moveTextBack.start();
       });
-      Animated.parallel([moveFromTextToCenter, moveToTextToCenter]).start(
-        () => {
-          const moveFromTextBack = Animated.timing(this.moveAnimationFrom, {
-            toValue: 0,
-          });
-          const moveToTextBack = Animated.timing(this.moveAnimationTo, {
-            toValue: 0,
-          });
-          // TODO: set State and change labels
-          Animated.parallel([moveFromTextBack, moveToTextBack]).start();
-        },
-      );
     }
   }
 
@@ -92,15 +83,11 @@ class LanguageChooser extends Component {
 
   render() {
     const { style } = this.props;
-    const moveFromText = this.moveAnimationFrom.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, 60],
+    const moveText = this.moveAnimation.interpolate({
+      inputRange: [0, 0.3, 0.7, 1],
+      outputRange: [0, 65, 67, 70],
     });
-    const moveToText = this.moveAnimationTo.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, 60],
-    });
-    console.log(moveFromText);
+
     return (
       <View style={[styles.container, style]}>
         <View style={styles.textContainer}>
@@ -116,12 +103,15 @@ class LanguageChooser extends Component {
             <View style={styles.textButtonContainer}>
               <Text style={styles.smallText}>Input</Text>
               <Button
-                buttonStyle={[styles.button, STYLE_SHADOW]}
-                {...styles.text}
+                style={[styles.button, STYLE_SHADOW]}
                 // textStyle={{ paddingLeft: moveFromText }}
-                title={this.props.from}
+                // title={this.props.from}
                 onPress={this.onPressInput}
-              />
+              >
+                <Animated.View style={{ paddingLeft: moveText }}>
+                  <Text style={styles.text}>{this.state.from}</Text>
+                </Animated.View>
+              </Button>
             </View>
 
             <TouchableOpacity onPress={this.onPressSwitch}>
@@ -134,12 +124,15 @@ class LanguageChooser extends Component {
             <View style={styles.textButtonContainer}>
               <Text style={styles.smallText}>Output</Text>
               <Button
-                buttonStyle={[styles.button, STYLE_SHADOW]}
+                style={[styles.button, STYLE_SHADOW]}
                 {...styles.text}
                 // textStyle={{ paddingRight: moveToText }}
-                title={this.props.to}
                 onPress={this.onPressOutput}
-              />
+              >
+                <Animated.View style={{ paddingRight: moveText }}>
+                  <Text style={styles.text}>{this.state.to}</Text>
+                </Animated.View>
+              </Button>
             </View>
           </View>
         </View>
@@ -180,6 +173,9 @@ const styles = StyleSheet.create({
     backgroundColor: BACKGROUND_COLOR,
     borderRadius: 8,
     width: 130,
+    height: 45,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   textContainer: {
     height: 40,

@@ -34,6 +34,7 @@
     "camelcase": 0,
     "no-underscore-dangle": 0,
     "prefer-const": 0,
-    "react/sort-comp": 0
+    "react/sort-comp": 0,
+    "react/no-multi-comp": 0
   }
 }

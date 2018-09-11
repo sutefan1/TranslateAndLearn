@@ -17,6 +17,7 @@ import {
   TEXT_COLOR,
   STYLE_SHADOW,
   SECONDARY_TEXT_COLOR,
+  INITIAL_LANGUAGES,
 } from '../Constants';
 import SearchBar from '../components/SearchBar';
 import LanguageChooser from '../components/LanguageChooser';
@@ -27,8 +28,8 @@ class SearchScreen extends Component {
     visibleHeight: Dimensions.get('window').height,
     logoFadedOut: false,
     lang: {
-      from: 'de',
-      to: 'en',
+      from: INITIAL_LANGUAGES.from,
+      to: INITIAL_LANGUAGES.to,
     },
   };
 
