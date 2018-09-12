@@ -44,9 +44,9 @@ export const setTranslationPlaceholder = ({ input, lang: { from, to } }) => ({
   },
 });
 
-export const removeTranslation = translation => ({
+export const removeTranslation = id => ({
   type: REMOVE_TRANSLATION,
-  payload: translation,
+  payload: id,
 });
 
 export const clearTranslations = () => ({ type: CLEAR_TRANSLATIONS });

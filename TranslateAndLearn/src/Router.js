@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import store from './reducers';
 import SearchScreen from './screens/SearchScreen';
 import Vocabulary from './screens/Vocabulary';
+import TranslationDetailScreen from './screens/TranslationDetailScreen';
 import {
   SECONDARY_BACKGROUND_COLOR,
   INACTIVE_TINTCOLOR,
@@ -59,6 +60,9 @@ class Router extends Component {
         },
         languageChooser: {
           screen: LanguageChooserScreen,
+        },
+        translationDetail: {
+          screen: TranslationDetailScreen,
         },
       },
       { mode: 'modal' },
