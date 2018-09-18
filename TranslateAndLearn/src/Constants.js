@@ -1,4 +1,7 @@
-export const ROOT_URL = 'https://translation.googleapis.com';
+export const ROOT_URL = {
+  GOOGLE: 'https://translation.googleapis.com',
+  YANDEX: 'https://translate.yandex.net/api/v1.5/tr.json/translate',
+};
 export const TRANSLATE_URL = '/language/translate/v2';
 export const LANGUAGE_URL = '/language/translate/v2/languages';
 export const BACKGROUND_COLOR = '#232C3D';
