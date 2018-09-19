@@ -86,10 +86,10 @@ To get a overview of the app and how it works I did some fancy App Store like sc
 
 ### Animation
 
-I played around with `React Natives Animated` component which can be seen in the following gif:
+I played around with `React Natives Animated` component which can be seen in the following gif (the higher quality video is located in the screenshots folder):
 ![alt text][gif]
 
-[ios1]: https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/ios/translatelearn_1.0_iOS/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%201.png "Start Screen"
+[ios1]: https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/ios/translatelearn_1.0_iOS/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%201.png "Start Screen" width="100"
 [ios2]: https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/ios/translatelearn_1.0_iOS/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%202.png "Language Choose"
 [ios3]: https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/ios/translatelearn_1.0_iOS/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%203.png "Switch Language"
 [ios4]: https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/ios/translatelearn_1.0_iOS/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%204.png "History"
@@ -99,4 +99,4 @@ I played around with `React Natives Animated` component which can be seen in the
 [android3]: https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/android/translatelearn_1.0_Android/Nexus%206P%20-%20Screenshot%203.png "Switch Language"
 [android4]: https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/android/translatelearn_1.0_Android/Nexus%206P%20-%20Screenshot%204.png "History"
 [android5]: https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/android/translatelearn_1.0_Android/Nexus%206P%20-%20Screenshot%205.png "Detail Screen"
-[gif]: https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/TranslateAndLearn.mp4 "Animation Example"
+[gif]: https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/TranslateAndLearn.gif "Animation Example"
