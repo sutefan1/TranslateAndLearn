@@ -33,6 +33,14 @@ class SearchScreen extends Component {
     },
   };
 
+  // async componentWillMount() {
+  //   const realm = await Realm.open({ schema: [TranslationSchema] });
+  //   let tranlations = realm.objects('TranslateSchema');
+  //   if (tranlations.length > 0) {
+  //     this.props.setHistory(tranlations);
+  //   }
+  // }
+
   logoOpacity = new Animated.Value(0.1);
 
   logoScale = new Animated.Value(1);

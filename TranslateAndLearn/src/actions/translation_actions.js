@@ -1,15 +1,16 @@
 import axios from 'axios';
+import Realm from 'realm';
 import {
   TRANSLATE,
   REMOVE_TRANSLATION,
   CLEAR_TRANSLATIONS,
   SET_TRANSLATION_PLACEHOLDER,
-  SET_HISTORY,
   LOAD_STORE,
 } from './types';
 
 import { ROOT_URL, TRANSLATE_URL } from '../Constants';
 import API_KEY from '../ApiKey';
+import { TranslationSchema, LanguageSchema } from '../RealmSchemes';
 
 export const translate = ({ input, lang: { from, to } }) => async (dispatch) => {
   try {
@@ -69,15 +70,46 @@ export const setTranslationPlaceholder = ({ input, lang: { from, to } }) => ({
   },
 });
 
-export const removeTranslation = id => ({
-  type: REMOVE_TRANSLATION,
-  payload: id,
-});
+export const removeTranslation = id => (dispatch) => {
+  Realm.open({ schema: [TranslationSchema, LanguageSchema] }).then((realm) => {
+    let tranlation = realm.objectForPrimaryKey(TranslationSchema.name, id);
+    if (tranlation) {
+      realm.write(() => {
+        realm.delete(tranlation);
+      });
+      dispatch({
+        type: REMOVE_TRANSLATION,
+        payload: id,
+      });
+    } else {
+      dispatch({
+        type: REMOVE_TRANSLATION,
+        payload: -1,
+      });
+    }
+  });
+};
 
-export const clearTranslations = () => ({ type: CLEAR_TRANSLATIONS });
+export const clearTranslations = () => (dispatch) => {
+  Realm.open({ schema: [TranslationSchema, LanguageSchema] }).then((realm) => {
+    realm.write(() => {
+      realm.deleteModel(TranslationSchema.name);
+    });
 
-export const setHistory = history => ({ type: SET_HISTORY, payload: history });
+    dispatch({ type: CLEAR_TRANSLATIONS });
+  });
+};
 
 export const loadStore = () => (dispatch) => {
-  // TODO realm load
+  Realm.open({ schema: [TranslationSchema, LanguageSchema] }).then((realm) => {
+    const history = realm.objects('Translation');
+
+    if (history.length > 0) {
+      dispatch({
+        type: LOAD_STORE,
+        payload: history,
+      });
+    }
+    console.log(history);
+  });
 };
