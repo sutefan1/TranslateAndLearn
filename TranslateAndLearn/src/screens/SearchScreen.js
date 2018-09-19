@@ -128,7 +128,7 @@ class SearchScreen extends Component {
   };
 
   render() {
-    const { visibleHeight, logoFadedOut } = this.state;
+    const { visibleHeight, logoFadedOut, lang } = this.state;
 
     const { lastTranslation } = this.props;
 
@@ -205,8 +205,8 @@ class SearchScreen extends Component {
         </Animated.View>
         <View style={styles.bottomSection}>
           <LanguageChooser
-            from={this.state.lang.from}
-            to={this.state.lang.to}
+            from={lang.from}
+            to={lang.to}
             onChangeFrom={this.onChangeFrom}
             onChangeTo={this.onChangeTo}
           />

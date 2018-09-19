@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import {
   StyleSheet,
   Text,
@@ -46,14 +47,33 @@ class LanguageChooserScreen extends Component {
   keyExtractor = (item, index) => `${index}`;
 
   async componentDidMount() {
-    const url = `${ROOT_URL}${LANGUAGE_URL}?key=${API_KEY}`;
-    let {
-      data: {
-        data: { languages },
-      },
-    } = await axios.get(url);
-    languages = languages.map(language => language.language);
-    this.setState({ languages });
+    try {
+      const url = `${ROOT_URL.GOOGLE}${LANGUAGE_URL.GOOGLE}?key=${
+        API_KEY.GOOGLE
+      }`;
+      let {
+        data: {
+          data: { languages },
+        },
+      } = await axios.get(url);
+      languages = languages.map(language => language.language);
+      this.setState({ languages });
+    } catch (err) {
+      console.log(err);
+      try {
+        const url = `${ROOT_URL.YANDEX}${LANGUAGE_URL.YANDEX}?key=${
+          API_KEY.YANDEX
+        }`;
+        let {
+          data: { dirs },
+        } = await axios.get(url);
+        const tempLanguages = dirs.map(language => language.split('-')[0]);
+        const languages = [...new Set(tempLanguages)];
+        this.setState({ languages });
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 
   onPressItem = (lang) => {
@@ -82,7 +102,6 @@ class LanguageChooserScreen extends Component {
     const { languages } = this.state;
     return (
       <FlatList
-        onScroll={this.handleScroll}
         data={languages}
         keyExtractor={this.keyExtractor}
         renderItem={this.renderItem}

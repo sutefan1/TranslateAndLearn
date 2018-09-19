@@ -82,7 +82,7 @@ class LanguageChooser extends Component {
   };
 
   render() {
-    const { style } = this.props;
+    const { style, from, to } = this.props;
     const moveText = this.moveAnimation.interpolate({
       inputRange: [0, 0.3, 0.7, 1],
       outputRange: [0, 65, 67, 70],
@@ -111,7 +111,7 @@ class LanguageChooser extends Component {
                 onPress={this.onPressInput}
               >
                 <Animated.View style={{ paddingLeft: moveText }}>
-                  <Text style={styles.text}>{this.state.from}</Text>
+                  <Text style={styles.text}>{from}</Text>
                 </Animated.View>
               </Button>
             </View>
@@ -135,7 +135,7 @@ class LanguageChooser extends Component {
                 onPress={this.onPressOutput}
               >
                 <Animated.View style={{ paddingRight: moveText }}>
-                  <Text style={styles.text}>{this.state.to}</Text>
+                  <Text style={styles.text}>{to}</Text>
                 </Animated.View>
               </Button>
             </View>

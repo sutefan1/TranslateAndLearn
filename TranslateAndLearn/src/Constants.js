@@ -1,9 +1,15 @@
 export const ROOT_URL = {
   GOOGLE: 'https://translation.googleapis.com',
-  YANDEX: 'https://translate.yandex.net/api/v1.5/tr.json/translate',
+  YANDEX: 'https://translate.yandex.net/api/v1.5/tr.json',
 };
-export const TRANSLATE_URL = '/language/translate/v2';
-export const LANGUAGE_URL = '/language/translate/v2/languages';
+export const TRANSLATE_URL = {
+  GOOGLE: '/language/translate/v2',
+  YANDEX: '/translate',
+};
+export const LANGUAGE_URL = {
+  GOOGLE: '/language/translate/v2/languages',
+  YANDEX: '/getLangs',
+};
 export const BACKGROUND_COLOR = '#232C3D';
 export const SECONDARY_BACKGROUND_COLOR = '#2F3A4F';
 export const INACTIVE_TINTCOLOR = '#838383';

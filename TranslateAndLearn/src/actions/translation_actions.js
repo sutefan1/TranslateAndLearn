@@ -14,7 +14,7 @@ import { TranslationSchema, LanguageSchema } from '../RealmSchemes';
 
 export const translate = ({ input, lang: { from, to } }) => async (dispatch) => {
   try {
-    const url = `${ROOT_URL.GOOGLE}${TRANSLATE_URL}?key=${
+    const url = `${ROOT_URL.GOOGLE}${TRANSLATE_URL.GOOGLE}?key=${
       API_KEY.GOOGLE
     }&q=${input}&source=${from}&target=${to}`;
     let {
@@ -41,7 +41,7 @@ export const translate = ({ input, lang: { from, to } }) => async (dispatch) => 
     let {
       data: { text },
     } = await axios.get(
-      `${ROOT_URL.YANDEX}?key=${
+      `${ROOT_URL.YANDEX}${TRANSLATE_URL.YANDEX}?key=${
         API_KEY.YANDEX
       }&text=${input}&lang=${from}-${to}`,
     );
