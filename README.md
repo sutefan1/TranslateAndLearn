@@ -69,22 +69,51 @@ Another feature is the persistent history of all translations. Automatically aft
 To get a overview of the app and how it works I did some fancy App Store like screenshots:
 
 #### iOS
-<a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/ios/translatelearn_1.0_iOS/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%201.png" align="center" height="800" width="448" ></a>
-<a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/ios/translatelearn_1.0_iOS/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%202.png" align="center" height="800" width="448" ></a>
-<a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/ios/translatelearn_1.0_iOS/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%203.png" align="center" height="800" width="448" ></a>
-<a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/ios/translatelearn_1.0_iOS/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%204.png" align="center" height="800" width="448" ></a>
-<a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/ios/translatelearn_1.0_iOS/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%205.png" align="center" height="800" width="448" ></a>
+<table>
+  <tr>
+    <td><a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/ios/translatelearn_1.0_iOS/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%201.png" align="center" height="760" width="448" ></a></td>
+    <td>
+    <a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/ios/translatelearn_1.0_iOS/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%202.png" align="center" height="760" width="448" ></a>
+    </td>
+  </tr>
+    <tr>
+    <td><a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/ios/translatelearn_1.0_iOS/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%203.png" align="center" height="760" width="448" ></a></td>
+    <td>
+    <a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/ios/translatelearn_1.0_iOS/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%204.png" align="center" height="760" width="448" ></a>
+    </td>
+  </tr>
+    <tr>
+    <td><a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/ios/translatelearn_1.0_iOS/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%205.png" align="center" height="760" width="448" ></a></td>
+
+  </tr>
+  </table>
+  
 
 #### Android
-<a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/android/translatelearn_1.0_Android/Nexus%206P%20-%20Screenshot%201.png" align="center" height="800" width="448" ></a>
-<a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/android/translatelearn_1.0_Android/Nexus%206P%20-%20Screenshot%202.png" align="center" height="800" width="448" ></a>
-<a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/android/translatelearn_1.0_Android/Nexus%206P%20-%20Screenshot%203.png" align="center" height="800" width="448" ></a>
-<a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/android/translatelearn_1.0_Android/Nexus%206P%20-%20Screenshot%204.png" align="center" height="800" width="448" ></a>
-<a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/android/translatelearn_1.0_Android/Nexus%206P%20-%20Screenshot%205.png" align="center" height="800" width="448" ></a>
+<table>
+  <tr>
+    <td><a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/android/translatelearn_1.0_Android/Nexus%206P%20-%20Screenshot%201.png" align="center" height="760" width="448" ></a></td>
+    <td>
+    <a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/android/translatelearn_1.0_Android/Nexus%206P%20-%20Screenshot%202.png" align="center" height="760" width="448" ></a>
+    </td>
+  </tr>
+    <tr>
+    <td><a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/android/translatelearn_1.0_Android/Nexus%206P%20-%20Screenshot%203.png" align="center" height="760" width="448" ></a></td>
+    <td>
+    <a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/android/translatelearn_1.0_Android/Nexus%206P%20-%20Screenshot%204.png" align="center" height="760" width="448" ></a>
+    </td>
+  </tr>
+    <tr>
+    <td><a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/android/translatelearn_1.0_Android/Nexus%206P%20-%20Screenshot%205.png" align="center" height="760" width="448" ></a></td>
+
+  </tr>
+  </table>
+
 
 ### Animation
 
 I played around with `React Natives Animated` component which can be seen in the following gif (the higher quality video is located in the screenshots folder):
+
 ![alt text][gif]
 
 [gif]: https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/TranslateAndLearn.gif "Animation Example"
