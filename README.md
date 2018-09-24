@@ -1,4 +1,5 @@
 # TranslateAndLearn
+ <p align="center"> <img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/ios/translatelearn_1.0_iOS/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%201.png" align="center" height="760" width="448" ></p>
 
 ## Motivation
 
@@ -6,7 +7,7 @@ Translate&Learn is an app that should help you to improve your language skills. 
 
 ## Implementation
 
-For the implementation I used a cross-platform framework called React Native. The main reasons to use it is my lack of experience in Android (Java, Kotlin) development and the project time. The next section covers my entire development setup from the editor to the third party frameworks I used.
+For the implementation I used a cross-platform framework called React Native. The next section covers my entire development setup from the editor to the third party frameworks I used.
 
 ### Environment
 
@@ -52,7 +53,7 @@ This is the list of frameworks that make it happen to realize this project in su
 - **Axios**: Easy network request handling
 - **Lodash**: Utility framework
 - **React Native Elements**: Set of UI components
-- **React** Navigation: Javascript based navigation framework
+- **React Navigation**: Javascript based navigation framework
 - **Realm**: Persistence of app data
 - **Redux**: Handling application state globally
 - **Redux Thunk**: Redux middleware to do async tasks in actions / actions creators
@@ -60,7 +61,7 @@ This is the list of frameworks that make it happen to realize this project in su
 
 ### Features
 
-The main feature is to translate from A to B. To achieve this I used the `Google Cloud Translation API` which is free to use in the first year, like almost all APIs provided by Google. To keep the app working even after this first free of charge year I added the service of `Yandex`. Yandex provides a translation API too. It does come with less languages, but in general it's really useful to get started in the first place. So, big recommendation from myside as this service is for free. Usually the Google Cloud Translation is used to translate the text, but if it is not working for some reason, Yandex is used as a fallback.
+The main feature is to translate from A to B. To achieve this I used the `Google Cloud Translation API` which is free to use in the first year, like almost all APIs provided by Google. To keep the app working even after this first free of charge year I added the service of `Yandex`. Yandex provides a translation API too. It does come with less languages, but in general it's really useful to get started in the first place. So, big recommendation from my side as this service is for free. Usually the Google Cloud Translation is used to translate the text, but if it is not working for some reason, Yandex is used as a fallback.
 
 Another feature is the persistent history of all translations. Automatically after every successful translation call the app stores the translation and its metadata in a separated history. This history can be accessed by pressing the right hand button on the bottom tabbar.
 
@@ -113,7 +114,7 @@ To get a overview of the app and how it works I did some fancy App Store like sc
 ### Animation
 
 I played around with `React Natives Animated` component which can be seen in the following gif (the higher quality video is located in the screenshots folder):
+ <p align="center"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/TranslateAndLearn.gif" align="center" height="760" width="448" > </p>
 
-![alt text][gif]
 
 [gif]: https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/TranslateAndLearn.gif "Animation Example"
